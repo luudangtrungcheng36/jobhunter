@@ -1,11 +1,10 @@
 package vn.myproject.jobhunter.service;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import vn.myproject.jobhunter.domain.User;
 import vn.myproject.jobhunter.repository.UserRepository;
+import vn.myproject.jobhunter.service.error.IdInvalidException;
 
 @Service
 public class UserService {
@@ -32,15 +31,23 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
+        // User user = getUser(id);
+
+        if (!userRepository.existsById(id)) {
+            throw new IdInvalidException("id không tồn tại !!!");
+        }
+
         this.userRepository.deleteById(id);
     }
 
     public User getUser(Long id) {
-        Optional<User> userOptional = this.userRepository.findById(id);
-        if (userOptional.isPresent()) {
-            return userOptional.get();
-        }
-        return null;
-    }
+        // Optional<User> userOptional = this.userRepository.findById(id);
+        // if (userOptional.isPresent()) {
+        // return userOptional.get();
+        // }
+        // return null;
 
+        // best practice from chat gpt
+        return userRepository.findById(id).orElseThrow(() -> new IdInvalidException("id không tồn tại"));
+    }
 }
