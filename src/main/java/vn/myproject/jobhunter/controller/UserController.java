@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.myproject.jobhunter.domain.User;
 import vn.myproject.jobhunter.service.UserService;
-import vn.myproject.jobhunter.service.error.IdInvalidException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
