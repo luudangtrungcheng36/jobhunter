@@ -1,5 +1,6 @@
 package vn.myproject.jobhunter.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import vn.myproject.jobhunter.domain.User;
@@ -9,13 +10,19 @@ import vn.myproject.jobhunter.service.error.IdInvalidException;
 @Service
 public class UserService {
     private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User handleSaveUser(User user) {
-        return this.userRepository.save(user);
+        User createUser = new User();
+        createUser.setEmail(user.getEmail());
+        createUser.setName(user.getName());
+        createUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        return this.userRepository.save(createUser);
     }
 
     public User handleUpdateUser(User user) {
