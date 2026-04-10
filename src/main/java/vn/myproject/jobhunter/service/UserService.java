@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import vn.myproject.jobhunter.domain.User;
 import vn.myproject.jobhunter.repository.UserRepository;
-import vn.myproject.jobhunter.service.error.IdInvalidException;
+import vn.myproject.jobhunter.util.error.IdInvalidException;
 
 @Service
 public class UserService {
@@ -56,5 +56,9 @@ public class UserService {
 
         // best practice from chat gpt
         return userRepository.findById(id).orElseThrow(() -> new IdInvalidException("id không tồn tại"));
+    }
+
+    public User handleGetUserByUsername(String username) {
+        return this.userRepository.findByEmail(username);
     }
 }
